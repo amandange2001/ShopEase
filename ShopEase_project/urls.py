@@ -17,13 +17,24 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from ShopEase_app import views
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("", views.index, name="index"),
+    path("watchbrowse/", views.watchbrowse, name="watchbrowse"),
+    path("mycart/", views.mycart, name="mycart"),
     path("loginuser/", views.loginuser, name="loginuser"),
     path("userlogout/", views.userlogout, name="userlogout"),
     path("registeruser/", views.registeruser, name="registeruser"),
-    path("aboutus/", views.aboutus, name="aboutus"),
-    path("contactus", views.contactus, name="contactus"),
-]
+    path("Gents", views.Gents, name="Gents"),
+    path("Ladies", views.Ladies, name="Ladies"),
+    path("Children", views.Children, name="Children"),
+    path("Couple", views.Couple, name="Couple"),
+    path('buy/<int:product_id>/', views.buy_product, name='buy_product'),
+    path("searchproduct", views.searchproduct, name="searchproduct"),
+    path('remove_from_cart/<int:item_id>/', views.remove_from_cart, name='remove_from_cart'),
+    path('checkout/', views.checkout, name='checkout'),
+  
+]  + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,0 +1,51 @@
+{% include 'header.html' %}
+
+<title>WatchCrafters|Browse</title>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3 bg-body-secondary p-3">
+                <form method="get" action="{% url 'searchproduct' %}" class="d-flex" role="search">
+                    <input class="form-control me-2" name="q" value="{{ query }}" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-md-3 bg-light p-3">
+                <h5>Filter By Category</h5>
+                <p><a href="{% url 'Gents' %}">Gents</a></p>
+                <p><a href="{% url 'Ladies' %}">Ladies</a></p>
+                <p><a href="{% url 'Children' %}">Children</a></p>
+                <p><a href="{% url 'Couple' %}">Couple</a></p>
+            </div>
+
+            <div class="col-md-9 bg-light p-3">
+                {% if query %}
+                <div class="text-center mt-4">
+                    <h5>Search results for: <strong>{{ query }}</strong></h5>
+                    <h2>{{ errmsg }}</h2>
+                </div>
+                {% endif %}
+
+                <div class="row">
+                    {% for product in products %}
+                    <div class="col-md-4 mb-4">
+                        <div class="card" style="width: 18rem;">
+                            <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}" style="height: 300px;">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ product.name }}</h5>
+                                <p class="card-text">{{ product.description }}</p>
+                                <p class="card-text">Price: ${{ product.price }}</p>
+                                <a href="{% url 'buy_product' product.id %}" class="btn btn-primary">Buy Now</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% include 'footer.html' %}

@@ -1,0 +1,31 @@
+{% include 'header.html' %}
+
+<div class="container mt-4">
+    <h2>Payment Confirmation</h2>
+    <p><strong>User:</strong> {{ user.username }}</p>
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Product Image</th>
+                <th scope="col">Product Name</th>
+                <th scope="col">Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in cart_items %}
+            <tr>
+                <td><img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="product-image"></td>
+                <td>{{ item.product.name }}</td>
+                <td>${{ item.product.price }}</td>
+            </tr>
+            {% endfor %}
+            <tr>
+                <td colspan="2"><strong>Total:</strong></td>
+                <td><strong>${{ total_price }}</strong></td>
+            </tr>
+        </tbody>
+    </table>
+    <p>Your payment has been successfully processed. Thank you for shopping with us!</p>
+</div>
+
+{% include 'footer.html' %}

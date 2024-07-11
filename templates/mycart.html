@@ -1,0 +1,74 @@
+{% include 'header.html' %}
+
+<title>WatchCrafters | My Cart</title>
+<style>
+    .product-image {
+        max-width: 100px;
+        height: auto;
+    }
+    .btn-remove {
+        font-size: 0.8rem;
+    }
+    .btn-checkout {
+        width: 200px;
+    }
+</style>
+<body>
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-12">
+                <h2 class="mb-4">My Cart</h2>
+                {% if cart_items %}
+                    <form method="post" action="{% url 'mycart' %}">
+                        {% csrf_token %}
+                        <table class="table">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">Product</th>
+                                    <th scope="col">Image</th>
+                                    <th scope="col">Price</th>
+                                    <th scope="col">Quantity</th>
+                                    <th scope="col">Total</th>
+                                    <th scope="col">Remove</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in cart_items %}
+                                    <tr>
+                                        <td>{{ item.product.name }}</td>
+                                        <td><img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="product-image"></td>
+                                        <td>${{ item.product.price }}</td>
+                                        <td>
+                                            <input type="number" name="quantity-{{ item.id }}" value="{{ item.quantity }}" min="1" max="10" class="form-control quantity-input" data-product-price="{{ item.product.price }}">
+                                        </td>
+                                        <td>${{ item.total_price }}</td>
+                                        <td>
+                                            <a href="{% url 'remove_from_cart' item.id %}" class="btn btn-danger btn-sm btn-remove">Remove</a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                <tr>
+                                    <td colspan="4"><strong>Total:</strong></td>
+                                    <td colspan="2"><strong id="cart-total">${{ total_price }}</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary btn-checkout">Update Cart</button>
+                            <a href="{% url 'checkout' %}" class="btn btn-primary btn-checkout">Make Payment</a>
+                        </div>
+                    </form>
+                {% else %}
+                    <div class="alert alert-info" role="alert">
+                        Your cart is empty.
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <br>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    {% include 'footer.html' %}
